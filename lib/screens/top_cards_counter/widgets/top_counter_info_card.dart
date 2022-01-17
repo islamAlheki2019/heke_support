@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:heke_support/constants/color_constants.dart';
+import 'package:heke_support/helper/responsive.dart';
 
 class TopCounterCardInfoWidget extends StatelessWidget {
 
@@ -34,7 +35,7 @@ class TopCounterCardInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(defaultPadding),
+      padding: EdgeInsets.all(SizeConfig.height*0.015),
       decoration: const BoxDecoration(
         color: secondaryColor,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -62,10 +63,12 @@ class TopCounterCardInfoWidget extends StatelessWidget {
               const Icon(Icons.more_vert, color: Colors.white54)
             ],
           ),
+
           Text(
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+
           ),
           ProgressLine(
             color: progressColor,
