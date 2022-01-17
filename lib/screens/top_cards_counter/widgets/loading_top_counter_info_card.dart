@@ -59,7 +59,7 @@ class LoadingTopCounterCardInfoWidget extends StatelessWidget {
             // title
             SkeletonAvatar(
               style: SkeletonAvatarStyle(
-                height: SizeConfig.height*0.015,
+                height: SizeConfig.height*0.013,
                 width: SizeConfig.height*0.1,
               ),
             ),
@@ -77,13 +77,13 @@ class LoadingTopCounterCardInfoWidget extends StatelessWidget {
               children:[
                 SkeletonAvatar(
                   style: SkeletonAvatarStyle(
-                    height: SizeConfig.height*0.01,
+                    height: SizeConfig.height*0.009,
                     width: SizeConfig.height*0.013,
                   ),
                 ),
                 SkeletonAvatar(
                   style: SkeletonAvatarStyle(
-                    height: SizeConfig.height*0.01,
+                    height: SizeConfig.height*0.009,
                     width: SizeConfig.height*0.02,
                   ),
                 ),
