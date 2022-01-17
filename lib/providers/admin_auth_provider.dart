@@ -9,7 +9,7 @@ import 'package:heke_support/helper/account_mangemant.dart';
 import 'package:heke_support/models/user_chat.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-enum AdminStatus {
+enum AdminAuthStatus {
   uninitialized,
   authenticated,
   authenticating,
@@ -17,14 +17,14 @@ enum AdminStatus {
   authenticateCanceled,
 }
 
-class AdminLoginProvider extends ChangeNotifier {
+class AdminAuthProvider extends ChangeNotifier {
   final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firebaseFirestore;
 
-  AdminStatus _status = AdminStatus.uninitialized;
-  AdminStatus get status => _status;
+  AdminAuthStatus _status = AdminAuthStatus.uninitialized;
+  AdminAuthStatus get status => _status;
 
-  AdminLoginProvider({
+  AdminAuthProvider({
     required this.firebaseAuth,
     required this.firebaseFirestore,
   });
@@ -101,7 +101,7 @@ class AdminLoginProvider extends ChangeNotifier {
 
 
   Future<bool> handleSignIn({required String email,required String password,}) async {
-    _status = AdminStatus.authenticating;
+    _status = AdminAuthStatus.authenticating;
     notifyListeners();
 
     try {
@@ -136,7 +136,7 @@ class AdminLoginProvider extends ChangeNotifier {
       UserDataFromStorage.setSupportAdminPhone(listAdminsFromApi.firstWhere((element) => element['adminSupportEmail']==email)['adminSupportPhone']);
       UserDataFromStorage.setSupportAdminName(firebaseAuth.currentUser!.displayName!);
       UserDataFromStorage.setSupportAdminImage(firebaseAuth.currentUser!.photoURL!);
-      _status = AdminStatus.authenticated;
+      _status = AdminAuthStatus.authenticated;
 
       return true;
     } on FirebaseAuthException catch(e) {
@@ -146,7 +146,7 @@ class AdminLoginProvider extends ChangeNotifier {
       UserDataFromStorage.setSupportAdminPhone('');
       UserDataFromStorage.setSupportAdminName('');
       UserDataFromStorage.setSupportAdminImage('');
-      _status = AdminStatus.uninitialized;
+      _status = AdminAuthStatus.uninitialized;
       Fluttertoast.showToast(msg: e.toString(), backgroundColor: ColorConstants.greyColor);
 
       notifyListeners();
@@ -158,7 +158,7 @@ class AdminLoginProvider extends ChangeNotifier {
   }
 
   Future<bool> handleSignUp({required String email,required String password,}) async {
-    _status = AdminStatus.authenticating;
+    _status = AdminAuthStatus.authenticating;
     notifyListeners();
 
 
@@ -192,7 +192,7 @@ class AdminLoginProvider extends ChangeNotifier {
         UserDataFromStorage.setSupportAdminName(firebaseAuth.currentUser!.displayName!);
         UserDataFromStorage.setSupportAdminImage(firebaseAuth.currentUser!.photoURL!);
 
-        _status = AdminStatus.authenticated;
+        _status = AdminAuthStatus.authenticated;
         notifyListeners();
         return true;
       } on FirebaseAuthException catch(e) {
@@ -203,7 +203,7 @@ class AdminLoginProvider extends ChangeNotifier {
         UserDataFromStorage.setSupportAdminName('');
         UserDataFromStorage.setSupportAdminImage('');
         Fluttertoast.showToast(msg: e.code.toString(), backgroundColor: ColorConstants.greyColor,timeInSecForIosWeb: 5,webPosition:'center');
-        _status = AdminStatus.uninitialized;
+        _status = AdminAuthStatus.uninitialized;
         notifyListeners();
         print(e.message);
         return false;
@@ -213,7 +213,7 @@ class AdminLoginProvider extends ChangeNotifier {
 
     /// account NOT HAVE permission to create account
     else{
-      _status = AdminStatus.uninitialized;
+      _status = AdminAuthStatus.uninitialized;
       notifyListeners();
 
       print('account NOT HAVE permission to create account');
@@ -225,7 +225,7 @@ class AdminLoginProvider extends ChangeNotifier {
   }
 
   Future<void> handleSignOut() async {
-    _status = AdminStatus.uninitialized;
+    _status = AdminAuthStatus.uninitialized;
     await firebaseAuth.signOut();
     UserDataFromStorage.setSupportAdminIsLogin(false);
     UserDataFromStorage.setSupportAdminId('');

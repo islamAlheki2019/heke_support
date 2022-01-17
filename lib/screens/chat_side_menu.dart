@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:heke_support/providers/side_menu_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:heke_support/components/custom_fields_widget.dart';
 import 'package:heke_support/components/custom_image_network.dart';
@@ -81,6 +82,7 @@ class _ChatSideMenuState extends State<ChatSideMenu> {
   Widget build(BuildContext context) {
     ChatProvider chatProvider = Provider.of<ChatProvider>(context);
     HomeProvider homeProvider = Provider.of<HomeProvider>(context);
+    SideMenuProvider sideMenuProvider = Provider.of<SideMenuProvider>(context);
 
 
     return Drawer(
@@ -104,6 +106,7 @@ class _ChatSideMenuState extends State<ChatSideMenu> {
                           children: [
                             InkWell(
                               onTap: (){
+                                sideMenuProvider.setTabIndex(index: 0);
                                 Navigator.pop(context);
                               },
                               child: Image.asset("assets/images/logo.png"),

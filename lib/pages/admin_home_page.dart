@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +9,12 @@ import 'package:heke_support/constants/firestore_constants.dart';
 import 'package:heke_support/helper/account_mangemant.dart';
 import 'package:heke_support/models/popup_choices.dart';
 import 'package:heke_support/models/user_chat.dart';
+import 'package:heke_support/providers/chat_provider.dart';
+import 'package:heke_support/providers/home_provider.dart';
 import 'package:heke_support/screens/chat_screens/admin_chat_screen.dart';
-import 'package:heke_support/providers/admin_login_provider.dart';
-import 'package:heke_support/providers/providers.dart';
+import 'package:heke_support/providers/admin_auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:heke_support/utils/debouncer.dart';
-
 import '../screens/login_screens/login_screen.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -38,8 +37,7 @@ class AdminHomePageState extends State<AdminHomePage> {
   String _textSearch = "";
   bool isLoading = false;
 
-  late AdminLoginProvider adminLoginProvider;
-  late ClientChatProvider authProvider;
+  late AdminAuthProvider adminLoginProvider;
   late HomeProvider homeProvider;
   Debouncer searchDebouncer = Debouncer(milliseconds: 300);
   StreamController<bool> btnClearController = StreamController<bool>();
@@ -53,9 +51,8 @@ class AdminHomePageState extends State<AdminHomePage> {
   @override
   void initState() {
     super.initState();
-    authProvider = context.read<ClientChatProvider>();
     homeProvider = context.read<HomeProvider>();
-    adminLoginProvider = context.read<AdminLoginProvider>();
+    adminLoginProvider = context.read<AdminAuthProvider>();
 
     // registerNotification();
     // configLocalNotification();

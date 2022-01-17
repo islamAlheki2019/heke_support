@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:heke_support/providers/chat_provider.dart';
+import 'package:heke_support/providers/client_auth_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:heke_support/components/custom_fields_widget.dart';
@@ -7,8 +9,7 @@ import 'package:heke_support/constants/color_constants.dart';
 import 'package:heke_support/helper/navigation_functions.dart';
 import 'package:heke_support/helper/responsive.dart';
 import 'package:heke_support/helper/validatetors.dart';
-import 'package:heke_support/providers/admin_login_provider.dart';
-import 'package:heke_support/providers/providers.dart';
+import 'package:heke_support/providers/admin_auth_provider.dart';
 import 'package:heke_support/screens/home_screen.dart';
 import 'package:heke_support/screens/login_screens/sign_up_screen.dart';
 import 'package:heke_support/screens/support_start_chat.dart';
@@ -29,13 +30,13 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AdminLoginProvider adminLoginProvider = Provider.of<AdminLoginProvider>(context);
-    ClientChatProvider clientChatProvider = Provider.of<ClientChatProvider>(context);
+    AdminAuthProvider adminLoginProvider = Provider.of<AdminAuthProvider>(context);
     ChatProvider chatProvider = Provider.of<ChatProvider>(context);
+    ClientAuthProvider clientAuthProvider = Provider.of<ClientAuthProvider>(context);
 
     return Scaffold(
         body: ModalProgressHUD(
-          inAsyncCall:adminLoginProvider.status==AdminStatus.authenticating,
+          inAsyncCall:adminLoginProvider.status==AdminAuthStatus.authenticating,
           // progressIndicator:const Center(child: LoadingAnimationWidget()) ,
           progressIndicator:Container() ,
           color: Colors.transparent,
@@ -152,7 +153,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Visibility(
-                                    visible: adminLoginProvider.status==AdminStatus.authenticating,
+                                    visible: adminLoginProvider.status==AdminAuthStatus.authenticating,
                                     child: const Center(child: LoadingAnimationWidget()),
                                     replacement: Expanded(
                                       child: TextButton(
@@ -261,45 +262,52 @@ class LoginScreenState extends State<LoginScreen> {
                               child: TextButton(
                                 onPressed: () async {
 
-                                  bool haveChatBefore = await chatProvider.checkSupportChatOpening(userId: '7');
+                                  await clientAuthProvider.handleSignIn(
+                                    userPhone:'01228289970' ,
+                                    userEmail: 'Mona111@as.com',
+                                    password:'Mona111@as.com',
+                                    userCountryId: '1',
+                                    photoUrl: 'https://web.tshtri.com/cdn-cgi/image/h=165,fit=cover,gravity=0.5x0.5,format=auto/Images/Posts/image_picker_FC33683A-C361-4AE7-BE08-F656B267CF46-38173-000022FE6BD9AE51222754488.jpg',
+                                    userName: 'MonaMona111',
+                                    userType:'1' ,
+                                    userId: '111',
+                                    userProveIdNumber:'00000000',
+                                    chatStatue: 'active',
+                                    context: context,
+                                  );
 
-                                  if(haveChatBefore){
-                                    bool isSuccess = await clientChatProvider.startChatHandle(
-                                      userPhone:'01228289970' ,
-                                      userEmail: 'islam1@as.com',
-                                      userCountryId: '1',
-                                      photoUrl: 'https://web.tshtri.com/cdn-cgi/image/h=165,fit=cover,gravity=0.5x0.5,format=auto/Images/Posts/image_picker_FC33683A-C361-4AE7-BE08-F656B267CF46-38173-000022FE6BD9AE51222754488.jpg',
-                                      userName: 'Mona',
-                                      userType:'1' ,
-                                      userId: '2',
-                                      userProveIdNumber:'00000000',
-                                      chatStatue: 'active',
-                                      context: context,
-                                    );
-                                    if (isSuccess||!isSuccess) {
+                                  if (clientAuthProvider.status==ClientAuthStatus.authenticated) {
+                                    bool haveChatBefore = await chatProvider.checkSupportChatOpening(userId: '111');
+                                    if(haveChatBefore){
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => const ClientChatScreen(
+                                            peerUserName: 'Mona100',
+                                            peerId: 'null',
+                                            commonPerId: '100',
+                                            peerAvatar:'https://web.tshtri.com/cdn-cgi/image/h=165,fit=cover,gravity=0.5x0.5,format=auto/Images/Posts/image_picker_FC33683A-C361-4AE7-BE08-F656B267CF46-38173-000022FE6BD9AE51222754488.jpg' ,
+                                            currentId: '111',
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    else{
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const StartSupportChatScreen(
                                             peerUserName: 'Mona',
                                             peerId: 'null',
                                             commonPerId: '100',
                                             peerAvatar:'https://web.tshtri.com/cdn-cgi/image/h=165,fit=cover,gravity=0.5x0.5,format=auto/Images/Posts/image_picker_FC33683A-C361-4AE7-BE08-F656B267CF46-38173-000022FE6BD9AE51222754488.jpg' ,
                                             currentId: '2',
+
                                           ),
                                         ),
                                       );
                                     }
                                   }
-                                  else{
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const StartSupportChatScreen(),
-                                      ),
-                                    );
-                                  }
-
                                 },
                                 child: const Text(
                                   'User Test',

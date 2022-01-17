@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:heke_support/constants/color_constants.dart';
 import 'package:heke_support/helper/account_mangemant.dart';
 import 'package:heke_support/screens/login_screens/login_screen.dart';
-import 'package:heke_support/providers/admin_login_provider.dart';
+import 'package:heke_support/providers/admin_auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:heke_support/screens/home_screen.dart';
 
@@ -25,7 +25,7 @@ class SplashPageState extends State<SplashPage> {
   }
 
   void checkSignedIn() async {
-    AdminLoginProvider adminLoginProvider = context.read<AdminLoginProvider>();
+    AdminAuthProvider adminLoginProvider = context.read<AdminAuthProvider>();
 
 
     if (UserDataFromStorage.supportAdminIsLogin) {

@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:heke_support/constants/app_constants.dart';
 import 'package:heke_support/constants/color_constants.dart';
-import 'package:heke_support/screens/chat_screens/admin_chat_screen.dart';
 import 'package:heke_support/screens/chat_screens/client_chat_screen.dart';
-import 'package:heke_support/providers/client_chat_provider.dart';
-import 'package:provider/provider.dart';
 
 class StartSupportChatScreen extends StatefulWidget {
-  const StartSupportChatScreen({Key? key}) : super(key: key);
+  final String commonPerId;
+  final String peerId;
+  final String peerAvatar;
+  final String peerUserName;
+  final String currentId;
+
+  const StartSupportChatScreen({
+    Key? key,
+   required this.commonPerId,
+   required this.peerId,
+   required this.peerAvatar,
+   required this.peerUserName,
+   required this.currentId,
+  }) : super(key: key);
 
   @override
   _StartSupportChatScreenState createState() => _StartSupportChatScreenState();
@@ -19,7 +29,6 @@ class _StartSupportChatScreenState extends State<StartSupportChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ClientChatProvider clientLoginStatus = Provider.of<ClientChatProvider>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -115,33 +124,19 @@ class _StartSupportChatScreenState extends State<StartSupportChatScreen> {
 
 
                         ///mona
-
-                        bool isSuccess = await clientLoginStatus.startChatHandle(
-                          userPhone:'01228089975' ,
-                          userEmail: 'islam13@as.com',
-                          userCountryId: '1',
-                          photoUrl: 'https://web.tshtri.com/cdn-cgi/image/h=165,fit=cover,gravity=0.5x0.5,format=auto/Images/Posts/image_picker_FC33683A-C361-4AE7-BE08-F656B267CF46-38173-000022FE6BD9AE51222754488.jpg',
-                          userName: 'rrrrr',
-                          userType:'1' ,
-                          userId: '16',
-                          userProveIdNumber:'00000000',
-                          chatStatue: 'active',
-                          context: context,
-                        );
-                        if (isSuccess||!isSuccess) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ClientChatScreen(
-                                peerUserName: 'rrrrr',
-                                peerId: 'null',
-                                commonPerId: '100',
-                                peerAvatar:'https://web.tshtri.com/cdn-cgi/image/h=165,fit=cover,gravity=0.5x0.5,format=auto/Images/Posts/image_picker_FC33683A-C361-4AE7-BE08-F656B267CF46-38173-000022FE6BD9AE51222754488.jpg' ,
-                                currentId: '16',
-                              ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ClientChatScreen(
+                              peerUserName: widget.peerUserName,
+                              peerId: widget.peerId,
+                              commonPerId: widget.commonPerId,
+                              peerAvatar:widget.peerAvatar ,
+                              currentId: widget.currentId,
                             ),
-                          );
-                        }
+                          ),
+                        );
+
 
 
                       },

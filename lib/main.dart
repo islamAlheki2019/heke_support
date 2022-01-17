@@ -4,16 +4,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:heke_support/providers/chat_provider.dart';
+import 'package:heke_support/providers/client_auth_provider.dart';
+import 'package:heke_support/providers/home_provider.dart';
 import 'package:heke_support/providers/menu_provider.dart';
 import 'package:heke_support/constants/app_constants.dart';
-import 'package:heke_support/providers/client_chat_provider.dart';
-import 'package:heke_support/providers/admin_login_provider.dart';
+import 'package:heke_support/providers/admin_auth_provider.dart';
+import 'package:heke_support/providers/setting_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:heke_support/providers/side_menu_provider.dart';
 import 'package:heke_support/screens/splash_page.dart';
 import 'constants/color_constants.dart';
-import 'providers/providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,17 +35,18 @@ class SupportApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-
-        ChangeNotifierProvider<ClientChatProvider>(
-          create: (_) => ClientChatProvider(
-            firebaseFirestore: firebaseFirestore,
-          ),
-        ),
         ChangeNotifierProvider<MenuController>(
           create: (_) => MenuController(),
         ),
-        ChangeNotifierProvider<AdminLoginProvider>(
-          create: (_) => AdminLoginProvider(
+        ChangeNotifierProvider<AdminAuthProvider>(
+          create: (_) => AdminAuthProvider(
+            firebaseAuth: FirebaseAuth.instance,
+            firebaseFirestore: firebaseFirestore,
+          ),
+        ),
+
+        ChangeNotifierProvider<ClientAuthProvider>(
+          create: (_) => ClientAuthProvider(
             firebaseAuth: FirebaseAuth.instance,
             firebaseFirestore: firebaseFirestore,
           ),

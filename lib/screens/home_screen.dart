@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:heke_support/components/header.dart';
 import 'package:heke_support/constants/color_constants.dart';
 import 'package:heke_support/helper/responsive.dart';
-import 'package:heke_support/providers/admin_login_provider.dart';
+import 'package:heke_support/providers/admin_auth_provider.dart';
 import 'package:heke_support/providers/chat_provider.dart';
 import 'package:heke_support/providers/home_provider.dart';
 import 'package:heke_support/providers/menu_provider.dart';
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   StreamController<bool> btnClearController = StreamController<bool>();
 
   Future<void> handleSignOut(BuildContext context) async {
-    AdminLoginProvider adminLoginProvider = Provider.of<AdminLoginProvider>(context,listen: false);
+    AdminAuthProvider adminLoginProvider = Provider.of<AdminAuthProvider>(context,listen: false);
 
     await adminLoginProvider.handleSignOut();
     Navigator.pushReplacement(

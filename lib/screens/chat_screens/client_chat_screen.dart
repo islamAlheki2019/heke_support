@@ -7,19 +7,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:heke_support/components/chat_header.dart';
+import 'package:heke_support/components/upload_image_waiting.dart';
+import 'package:heke_support/providers/chat_provider.dart';
 import 'package:heke_support/screens/chat_screens/widgets/chat_mesaage_item_widget.dart';
 import 'package:heke_support/components/custom_fields_widget.dart';
-import 'package:heke_support/components/loading_view.dart';
 import 'package:heke_support/constants/color_constants.dart';
 import 'package:heke_support/constants/firestore_constants.dart';
 import 'package:heke_support/helper/responsive.dart';
 import 'package:heke_support/models/message_chat.dart';
 import 'package:heke_support/components/full_photo_page.dart';
-import 'package:heke_support/providers/providers.dart';
-import 'package:heke_support/screens/support_start_chat.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ClientChatScreen extends StatefulWidget {
@@ -143,6 +141,7 @@ class ClientChatScreenState extends State<ClientChatScreen> {
       imageUrl = await snapshot.ref.getDownloadURL();
       setState(() {
         isLoading = false;
+
         onSendMessage(context,imageUrl, TypeMessage.image);
       });
     } on FirebaseException catch (e) {
@@ -298,44 +297,8 @@ class ClientChatScreenState extends State<ClientChatScreen> {
                   children: [
                     Visibility(
                       visible: isLoading,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10,),
-                            child: TextButton(
-                              child: Material(
-                                child:Container(
-                                  decoration: const BoxDecoration(
-                                    color: ColorConstants.greyColor2,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
-                                    ),
-                                  ),
-                                  width: 200,
-                                  height: 200,
-                                  child: const Center(
-                                    child: CircularProgressIndicator(
-                                      color: ColorConstants.themeColor,
-                                    ),
-                                  ),
-                                ),
-                                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                clipBehavior: Clip.hardEdge,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FullPhotoPage(url: imageUrl),
-                                  ),
-                                );
-                              },
-                              style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(0))),
-                            ),
-                            margin: const EdgeInsets.only(left: 10),
-                          ),
-                        ],
+                      child: UploadImageWaiting(
+                        // imageFile: imageFile!,
                       ),
                     ),
                     ListView.builder(

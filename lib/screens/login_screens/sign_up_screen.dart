@@ -8,7 +8,7 @@ import 'package:heke_support/constants/color_constants.dart';
 import 'package:heke_support/helper/navigation_functions.dart';
 import 'package:heke_support/helper/responsive.dart';
 import 'package:heke_support/helper/validatetors.dart';
-import 'package:heke_support/providers/admin_login_provider.dart';
+import 'package:heke_support/providers/admin_auth_provider.dart';
 import 'package:heke_support/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +26,10 @@ class SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AdminLoginProvider adminLoginProvider = Provider.of<AdminLoginProvider>(context);
+    AdminAuthProvider adminLoginProvider = Provider.of<AdminAuthProvider>(context);
     return Scaffold(
         body: ModalProgressHUD(
-          inAsyncCall:adminLoginProvider.status==AdminStatus.authenticating,
+          inAsyncCall:adminLoginProvider.status==AdminAuthStatus.authenticating,
           // progressIndicator:const Center(child: LoadingAnimationWidget()) ,
           progressIndicator:Container() ,
           color: Colors.transparent,
@@ -148,7 +148,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Visibility(
-                                    visible: adminLoginProvider.status==AdminStatus.authenticating,
+                                    visible: adminLoginProvider.status==AdminAuthStatus.authenticating,
                                     child: const Center(child: LoadingAnimationWidget(),),
                                     replacement:Expanded(
                                       child: TextButton(
