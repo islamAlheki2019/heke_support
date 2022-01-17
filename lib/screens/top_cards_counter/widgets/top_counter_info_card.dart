@@ -68,7 +68,9 @@ class TopCounterCardInfoWidget extends StatelessWidget {
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-
+            style: TextStyle(
+              fontSize: SizeConfig.isMobile(context)?SizeConfig.height*0.01:null,
+            ),
           ),
           ProgressLine(
             color: progressColor,
@@ -79,14 +81,14 @@ class TopCounterCardInfoWidget extends StatelessWidget {
             children: [
               Text(
                 "$total $unitText",
-                style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.caption!.copyWith(fontSize: SizeConfig.isMobile(context)?SizeConfig.height*0.01:null,color: Colors.white),
               ),
               Text(
                 currentCount,
                 style: Theme.of(context)
                     .textTheme
                     .caption!
-                    .copyWith(color:Colors.white70 ),
+                    .copyWith(color:Colors.white70 ,fontSize: SizeConfig.isMobile(context)?SizeConfig.height*0.01:null,),
               ),
             ],
           )

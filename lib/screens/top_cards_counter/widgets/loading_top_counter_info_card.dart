@@ -67,7 +67,7 @@ class LoadingTopCounterCardInfoWidget extends StatelessWidget {
             // progr
             SkeletonAvatar(
               style: SkeletonAvatarStyle(
-                height: SizeConfig.height*0.007,
+                height: SizeConfig.height*0.005,
                 width: double.infinity,
               ),
             ),
